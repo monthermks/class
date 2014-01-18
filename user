@@ -1,0 +1,57 @@
+<?php include('database.php');?>
+<?php
+class users
+{
+   public function __construct()
+   {
+      $obj1 = new db();
+	  $obj1->connect();
+      //$this->conn();
+   }
+   public function selectall()
+   {
+      $obj2 = new db();
+	 $result = $obj2->query("SELECT * FROM users"); 
+	  $obj2->fetchall($result); 
+   }
+   public function insertuser($u_name,$pass,$f_name,$l_name)
+   {
+     $obj1 = new db();
+     $obj1->query("INSERT INTO users (`username`,`password`,`first_name`,`last_name`) VALUES 
+	 ('".$u_name."','".$pass."','".$f_name."','".$l_name."')");
+   }
+   public function edit($u_name,$pass,$f_name,$l_name,$id)
+   {
+     $obj1 = new db();
+	 $obj1->query("UPDATE users SET username = '".$u_name."',
+	                               password = '".$pass."',
+                                   first_name = '".$f_name."',last_name = '".$l_name."' 
+								    WHERE user_id = ".$id."");
+   }
+   public function delete($id)
+   {
+     $obj1 = new db();
+	 $obj1->query("DELETE FROM users WHERE user_id =".$id."");
+   }
+   public function fetchid($id)
+   { 
+     $obj1 = new db();
+	$result = $obj1->query("SELECT * FROM users where user_id = ".$id."");
+	 $obj1->fetch($result);
+   }   
+   public function search($u_name,$pass)
+   { 
+     $obj1 = new db();
+	$result = $obj1->query ("SELECT user_id FROM users WHERE username = '".$u_name."'
+	                                                    AND password = '".$pass."'");
+	$userset = $obj1->fetch($result);
+    return ($userset[0][0]);	
+   }
+ }
+$obj = new users;
+//$objn->insertuser("mks","1234","monther","al samhoure");
+//$objn->edit("gg","dd","ff","ss","17");
+//$objn->delete('17');
+//$objn->fetchid('1');
+//$obj->search("root","root");
+?>
